@@ -4,10 +4,13 @@ personal repo for [data engineering zoomcamp by DataTalks](https://github.com/Da
 ## current week
 
 - week 1 – docker and terraform
+- week 2 – workflow orchestration
 
 ## tools used
 
 - docker
+- airflow
+- terraform
 - jupyter
 - postgreSQL
 - pgadmin
