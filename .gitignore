@@ -1,11 +1,12 @@
 __*
 *.ipynb_checkpoints*
 *.json
+*json
 .*
 01-docker_terraform/data
 01-docker_terraform/yellow_tripdata*
 01-docker_terraform/terraform/.terra*
 01-docker_terraform/docker/ny_taxi
-02-data-ingestion/airflow_tut/config
-02-data-ingestion/airflow_tut/logs
-02-data-ingestion/airflow_tut/plugins
+*config
+*logs
+*plugins

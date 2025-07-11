@@ -11,7 +11,7 @@ services:
     ports:
       - "5433:5432"
     networks:
-      - dtdez
+      - same-network-as-airflow
 
   pgadmin:
     image: dpage/pgadmin4
@@ -26,11 +26,12 @@ services:
     depends_on:
       - db
     networks:
-      - dtdez
+      - same-network-as-airflow
 
 volumes:
   pgadmin_data:
 
 networks:
-  dtdez:
-    name: dtdez
+  same-network-as-airflow:
+    external:
+      name: week_2_default
