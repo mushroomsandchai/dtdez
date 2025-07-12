@@ -5,8 +5,6 @@ import pyarrow.parquet as pq
 from sqlalchemy import create_engine, Table, MetaData, text
 from sqlalchemy.exc import OperationalError
 
-# postgresql+psycopg2://root:root@db:5432/ny_taxi
-
 def establish_connection(server):
     engine = create_engine(server)
     tries = 0
@@ -21,15 +19,15 @@ def establish_connection(server):
     raise OperationalError("couldn't connect to the server after 3 attempts")
 
 
-def write_to_postgres(conn, filename):
+def parquet_writer(conn, filename):
     engine = create_engine(conn)
     file_path = f"ny_taxi/{filename}"
-    if os.path.exists(file_path):
-        yellow_jan_21 = pq.ParquetFile(file_path)
-    else:
-        raise FileNotFoundError("couldn't find the file")
+    table = file_exists(file_path)
     
-    table_name = f'yellow_{filename.replace('.parquet', '').replace('-', '_')}'
+    if 'zone' in filename:
+        table_name = "zone"
+    else:
+        table_name = f'{filename.replace('.parquet', '')}'
     
     try:
         with engine.connect() as conn:
@@ -39,8 +37,19 @@ def write_to_postgres(conn, filename):
         pass
         
     total_time = time.time()
-    for batch in yellow_jan_21.iter_batches(batch_size = 50000):
+    for batch in table.iter_batches(batch_size = 50000):
         batch_time = time.time()
         (batch.to_pandas()).to_sql(con = engine, name = table_name, if_exists = 'append', index = False)
         print(f'batch time: {time.time() - batch_time:.2f}')
     print(f'total time: {time.time() - total_time:.2f}')
+
+def csv_to_parquet(filename):
+    file_path = f"ny_taxi/{filename}"
+    df = pd.read_csv(file_path)
+    df.to_parquet(path = file_path.replace(".csv", ".parquet"))
+
+def file_exists(file_path):
+    if os.path.exists(file_path):
+        return(pq.ParquetFile(file_path))
+    else:
+        raise FileNotFoundError("couldn't find the file")
