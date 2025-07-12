@@ -80,6 +80,7 @@ x-airflow-common:
     PG_HOST: "${PG_HOST}"
     PG_PORT: "${PG_PORT}"
     PG_TABLE: "${PG_TABLE}"
+    PROJECT_ID: "${PROJECT_ID}"
     BUCKET_NAME: "${BUCKET_NAME}"
     # The following line can be used to set a custom config file, stored in the local config folder
     AIRFLOW_CONFIG: '/opt/airflow/config/airflow.cfg'

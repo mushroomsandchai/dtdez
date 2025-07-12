@@ -3,17 +3,17 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from airflow.decorators import task, dag
 from transform import establish_connection, parquet_writer
-from load import upload_blob
+from load import upload_blob, upload_dataset
 import os
 
 @dag(
     dag_id = "yellow_ingest",
-    start_date = datetime(2019, 5, 1),
+    start_date = datetime(2019, 1, 1),
     # running only for the required time period for homework
     # change start_date to datetime(2009, 1, 1) and
     #        end_date   to datetime.today() - timedelta(days = 60)
     # as ny_taxi is usually two months(60 days) late to upload latest data
-    end_date = datetime(2019, 5, 30),
+    end_date = datetime(2020, 12, 1),
     schedule = "@monthly",
     catchup = True
 )
@@ -41,6 +41,18 @@ def encompass():
             f"ny_taxi/yellow/{year}_{month}.parquet"
             )
 
+    @task(task_id = "bq")
+    def bigquery(**kwargs):
+        execution_date = datetime.fromisoformat(kwargs['ts'])
+        year = execution_date.year
+        month = execution_date.month
+        file_name = f'yellow_{year}_{month:02d}.parquet'
+        upload_dataset(
+            os.getenv('PROJECT_ID'),
+            file_name,
+            f"/opt/airflow/ny_taxi/yellow_{year}_{month:02d}.parquet"
+            )
+
     @task(task_id = "connect_to_database")
     def connect() -> str:
         username = os.getenv('PG_USERNAME') 
@@ -59,6 +71,8 @@ def encompass():
         print(file_name)
         parquet_writer(server, file_name)
 
-    download() >> datalake() >> load(connect())
+    download() >> datalake() >> bigquery()
+    # comment the dependencies above and uncomment the below dependencies for local ingestion
+    # download() >> datalake() >> load(connect())
 
 encompass()

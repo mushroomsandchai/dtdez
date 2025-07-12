@@ -3,13 +3,13 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from airflow.decorators import task, dag
 from transform import establish_connection, parquet_writer
-from load import upload_blob
+from load import upload_blob, upload_dataset
 import os
 
 @dag(
-    dag_id = "fhv_local_ingestion",
+    dag_id = "fhv_ingest",
     start_date = datetime(2019, 1, 1),
-    end_date = datetime(2019, 1, 1),
+    end_date = datetime(2019, 12, 1),
     schedule = "@monthly",
     catchup = True
 )
@@ -36,6 +36,18 @@ def encompass():
             f"ny_taxi/fhv/{year}_{month}.parquet"
             )
 
+    @task(task_id = "bq")
+    def bigquery(**kwargs):
+        execution_date = datetime.fromisoformat(kwargs['ts'])
+        year = execution_date.year
+        month = execution_date.month
+        file_name = f'fhv_{year}_{month:02d}.parquet'
+        upload_dataset(
+            os.getenv('PROJECT_ID'),
+            file_name,
+            f"/opt/airflow/ny_taxi/fhv_{year}_{month:02d}.parquet"
+            )
+
     @task(task_id = "establish_database")
     def connect() -> str:
         username = os.getenv('PG_USERNAME')
@@ -56,6 +68,8 @@ def encompass():
         print(f'writing {filename} to database')
         parquet_writer(server, filename)
 
-    download() >> datalake() >> load(connect())
+    download() >> datalake() >> bigquery()
+    # comment the dependencies above and uncomment the below dependencies for local ingestion
+    # download() >> datalake() >> load(connect())
 
 encompass()
