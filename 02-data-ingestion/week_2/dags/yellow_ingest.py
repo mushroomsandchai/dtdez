@@ -3,6 +3,7 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from airflow.decorators import task, dag
 from transform import establish_connection, parquet_writer
+from load import upload_blob
 import os
 
 @dag(
@@ -29,6 +30,17 @@ def encompass():
         curl -f "{url}" -o "yellow_{year}_{month}.parquet"
         """
 
+    @task(task_id = "datalake")
+    def datalake(**kwargs) -> int:
+        execution_date = datetime.fromisoformat(kwargs['ts'])
+        year = execution_date.year
+        month = f"{execution_date.month:02d}"
+        upload_blob(
+            os.getenv('BUCKET_NAME'),
+            f"/opt/airflow/ny_taxi/yellow_{year}_{month}.parquet",
+            f"ny_taxi/yellow/{year}_{month}.parquet"
+            )
+
     @task(task_id = "connect_to_database")
     def connect() -> str:
         username = os.getenv('PG_USERNAME') 
@@ -47,6 +59,6 @@ def encompass():
         print(file_name)
         parquet_writer(server, file_name)
 
-    download() >> load(connect())
+    download() >> datalake() >> load(connect())
 
-dag = encompass()
+encompass()

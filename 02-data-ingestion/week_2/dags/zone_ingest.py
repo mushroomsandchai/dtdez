@@ -3,6 +3,7 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from airflow.decorators import task, dag
 import os
+from load import upload_blob
 from transform import establish_connection, csv_to_parquet, parquet_writer
 
 @dag(
@@ -24,6 +25,10 @@ def encompass():
     def convert() -> int:
         csv_to_parquet('zone.csv')
 
+    @task(task_id = "datalake")
+    def datalake() -> int:
+        upload_blob(os.getenv('BUCKET_NAME'), "/opt/airflow/ny_taxi/zone.csv", "ny_taxi/zone.csv")
+
     @task(task_id = "establish_database")
     def connect() -> str:
         username = os.getenv('PG_USERNAME')
@@ -40,7 +45,7 @@ def encompass():
         print(os.listdir())
         parquet_writer(server, 'zone.parquet')
 
-    download() >> convert() >> load(connect())
+    download() >> convert() >> datalake() >> load(connect())
 
 
 encompass()

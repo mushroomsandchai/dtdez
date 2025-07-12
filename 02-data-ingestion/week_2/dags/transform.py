@@ -2,7 +2,7 @@ import os
 import time
 import pandas as pd
 import pyarrow.parquet as pq
-from sqlalchemy import create_engine, Table, MetaData, text
+from sqlalchemy import create_engine, text
 from sqlalchemy.exc import OperationalError
 
 def establish_connection(server):
@@ -29,12 +29,10 @@ def parquet_writer(conn, filename):
     else:
         table_name = f'{filename.replace('.parquet', '')}'
     
-    try:
-        with engine.connect() as conn:
-            conn.execute(text(f'DROP TABLE "{table_name}"'))
-            conn.commit()
-    except:
-        pass
+    # drops table is it already exists
+    with engine.begin() as conn:
+        statement = f'DROP TABLE IF EXISTS "{table_name}"'
+        conn.execute(text(statement))
         
     total_time = time.time()
     for batch in table.iter_batches(batch_size = 50000):

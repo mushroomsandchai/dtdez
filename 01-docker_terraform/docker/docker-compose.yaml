@@ -33,5 +33,5 @@ volumes:
 
 networks:
   same-network-as-airflow:
-    external:
-      name: week_2_default
+    external: true
+    name: week_2_default
