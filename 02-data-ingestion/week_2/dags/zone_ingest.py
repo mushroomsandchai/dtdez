@@ -53,7 +53,9 @@ def encompass():
         print(os.listdir())
         parquet_writer(server, 'zone.parquet')
 
-    download() >> convert() >> datalake() >> load(connect()) >> bigquery()
+    download() >> convert() >> datalake() >> bigquery()
+    # uncomment below dependencies for local ingestion
+    # load(connect())
 
 
 encompass()

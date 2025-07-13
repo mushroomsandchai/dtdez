@@ -29,6 +29,7 @@ def upload_dataset(project_id, file_name, file_path):
     job_config = bigquery.LoadJobConfig(
         source_format=bigquery.SourceFormat.PARQUET,
         autodetect=True,
+        write_disposition="WRITE_TRUNCATE",
     )
 
     with open(file_path, "rb") as f:
