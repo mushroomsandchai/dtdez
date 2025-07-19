@@ -12,6 +12,7 @@ personal repo for [data engineering zoomcamp by DataTalks](https://github.com/Da
 
 - docker
 - airflow
+- dbt
 - bigquery
 - terraform
 - jupyter
