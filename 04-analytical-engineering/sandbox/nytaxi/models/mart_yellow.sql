@@ -12,3 +12,5 @@ group by
     dropoff_zone
 order by 
     no_of_trips desc
+
+{{ is_test_run(test) }}

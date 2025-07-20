@@ -20,4 +20,7 @@ from
     {{ source('ny_taxi', 'yellow_2018_07') }}
 where 
     fare_amount >= 0 and
-    passenger_count is not null
+    passenger_count is not null and
+    tpep_pickup_datetime < tpep_dropoff_datetime
+
+{{ is_test_run(test) }}

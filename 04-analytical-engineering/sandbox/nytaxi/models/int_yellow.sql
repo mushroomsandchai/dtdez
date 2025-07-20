@@ -24,3 +24,5 @@ join
     {{ ref('stg_zone') }} zd
 on 
     zd.id = y.dropoff_id
+
+{{ is_test_run(test) }}

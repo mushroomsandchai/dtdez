@@ -3,10 +3,27 @@ version: 2
 models:
   - name: int_yellow
     description: Intermediate model joining yellow trips with zones
+    columns:
+      - name: pickup
+        tests:
+          - relationships:
+              to: ref('stg_yellow')
+              field: pickup
+
   - name: stg_yellow
     description: Staged yellow taxi data
+    tests:
+      - time_integrity:
+          start_time: pickup
+          end_time: dropoff
+
   - name: stg_zone
     description: Staged zone lookup
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
 
 sources:
   - name: ny_taxi                   # how you call the source in dbt: {{ source('ny_taxi', 'yellow_2018_07') }}
