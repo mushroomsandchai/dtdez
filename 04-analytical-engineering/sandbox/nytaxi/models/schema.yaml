@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: int_yellow
+    description: Intermediate model joining yellow trips with zones
+  - name: stg_yellow
+    description: Staged yellow taxi data
+  - name: stg_zone
+    description: Staged zone lookup
+
+sources:
+  - name: ny_taxi                   # how you call the source in dbt: {{ source('ny_taxi', 'yellow_2018_07') }}
+    schema: ny_taxi                 # the dataset or schema it lives in
+    tables:
+      - name: yellow_2018_07        # the actual table name
+        description: July trips
