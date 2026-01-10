@@ -24,11 +24,9 @@ where
     lpep_pickup_datetime < '2025-12-01' and
     trip_distance <= 1
 ```
-+-----------+
 | num_trips |
 |-----------|
 | 8007      |
-+-----------+
 
 
 ### Question 4. Which was the pick up day with the longest trip distance? Only consider trips with `trip_distance` less than 100 miles (to exclude data errors). Use the pick up time for your calculations.
@@ -42,11 +40,9 @@ where trip_distance = (
                         where trip_distance < 100
                         )
 ```
-+------------+
 | date       |
 |------------|
 | 2025-11-14 |
-+------------+
 
 
 ### Question 5. Which was the pickup zone with the largest `total_amount` (sum of all trips) on November 18th, 2025?
@@ -62,7 +58,6 @@ group by z."Zone"
 order by 2 desc
 limit 5
 ```
-+--------------------------+--------------+
 | Zone                     | total_amount |
 |--------------------------+--------------|
 | East Harlem North        | 9281.92      |
@@ -70,7 +65,6 @@ limit 5
 | Central Park             | 2378.79      |
 | Washington Heights South | 2139.05      |
 | Morningside Heights      | 2100.59      |
-+--------------------------+--------------+
 
 ### Question 6. For the passengers picked up in the zone named "East Harlem North" in November 2025, which was the drop off zone that had the largest tip?
 #### Answer: Yorkville West
@@ -88,16 +82,13 @@ group by z2."Zone"
 order by 2 desc
 limit 5
 ```
-+-------------------------------+---------+
 | Zone                          | max_tip |
-|-------------------------------+---------|
+|-------------------------------|---------|
 | Yorkville West                | 81.89   |
 | LaGuardia Airport             | 50.0    |
 | East Harlem North             | 45.0    |
 | Long Island City/Queens Plaza | 34.25   |
-| <null>                        | 28.9    |
-+-------------------------------+---------+
-
+| null                          | 28.9    |
 
 ### Question 7. Which of the following sequences, respectively, describes the workflow for:
 1. Downloading the provider plugins and setting up backend,
