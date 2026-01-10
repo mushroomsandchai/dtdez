@@ -59,12 +59,12 @@ order by 2 desc
 limit 5
 ```
 | Zone                     | total_amount |
-|--------------------------+--------------|
-| East Harlem North        | 9281.92      |
-| East Harlem South        | 6696.13      |
-| Central Park             | 2378.79      |
-| Washington Heights South | 2139.05      |
-| Morningside Heights      | 2100.59      |
+|--------------------------|-------------|
+| East Harlem North        | 9281.92     |
+| East Harlem South        | 6696.13     |
+| Central Park             | 2378.79     |
+| Washington Heights South | 2139.05     |
+| Morningside Heights      | 2100.59     |
 
 ### Question 6. For the passengers picked up in the zone named "East Harlem North" in November 2025, which was the drop off zone that had the largest tip?
 #### Answer: Yorkville West
