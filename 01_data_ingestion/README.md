@@ -102,3 +102,5 @@ limit 5
 - [notebook](./solution.ipynb)
 - [configuration file](./docker-compose.yaml)
 - [homework questions](./homework.md)
+- [terraform configuration file](./terraform/main.tf)
+- [terraform variables file](./terraform/variables.tf)
