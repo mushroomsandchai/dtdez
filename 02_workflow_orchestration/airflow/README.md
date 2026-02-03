@@ -19,4 +19,4 @@ chmod +x init_airflow.sh
     Bash
     Docker Compose
 
-#### Note: Docker configuration files mounts the crediantials folder found at /home/ajay/.cred into airflow environment. This path needs to be set appropriately for your use case. Same goes for project_id and dataset names.
+###### Note: Docker configuration files mounts the crediantials folder found at /home/ajay/.cred into airflow environment. This path needs to be set appropriately for your use case. Same goes for project_id, dataset and other airflow connections(google_cloud_default in particular).
