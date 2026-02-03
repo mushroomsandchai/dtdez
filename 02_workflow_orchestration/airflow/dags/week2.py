@@ -22,7 +22,7 @@ def week_2_ingestion():
     def get_dates(logical_date = None):
         return({
                 'month': str(logical_date.month).zfill(2), 
-                'year': logical_date.year
+                'year': str(logical_date.year)
                 })
 
     @task.bash
