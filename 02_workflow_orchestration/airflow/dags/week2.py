@@ -4,6 +4,8 @@ from load import upload_blob
 from zoneinfo import ZoneInfo
 
 WORK_DIR = '/tmp/week2/'
+DATASET = 'homework'
+BUCKET_NAME = 'homework_dtdez'
 
 @dag(
     dag_id = 'week2',
@@ -44,8 +46,8 @@ def week_2_ingestion():
         if year == 2020 and month == "12":
             import os
             print(os.path.getsize(f"{WORK_DIR}yellow/{year}-{month}.csv") / (1000000))
-        upload_blob("dtdez", f'{WORK_DIR}yellow/{year}-{month}.csv', f'yellow/{year}-{month}.csv')
-        upload_blob("dtdez", f'{WORK_DIR}green/{year}-{month}.csv', f'green/{year}-{month}.csv')
+        upload_blob(BUCKET_NAME, f'{WORK_DIR}yellow/{year}-{month}.csv', f'yellow/{year}-{month}.csv')
+        upload_blob(BUCKET_NAME, f'{WORK_DIR}green/{year}-{month}.csv', f'green/{year}-{month}.csv')
 
     @task(
         trigger_rule = 'all_success'
@@ -57,7 +59,7 @@ def week_2_ingestion():
         month, year = date['month'], date['year']
         for taxi in (['yellow', 'green']):
             green_query = f"""
-                                create table if not exists dtdez.{taxi}_{year} (
+                                create table if not exists {DATASET}.{taxi}_{year} (
                                     VendorID INT64,
                                     lpep_pickup_datetime TIMESTAMP,
                                     lpep_dropoff_datetime TIMESTAMP,
@@ -80,18 +82,18 @@ def week_2_ingestion():
                                     congestion_surcharge FLOAT64
                                 );
 
-                                create or replace external table dtdez.{taxi}_{year}_{month}_ext options (
-                                uris = ['gs://dtdez/{taxi}/{year}-{month}.csv'],
+                                create or replace external table {DATASET}.{taxi}_{year}_{month}_ext options (
+                                uris = ['gs://{BUCKET_NAME}/{taxi}/{year}-{month}.csv'],
                                 format = 'csv'
                                 );
 
-                                insert into dtdez.{taxi}_{year}
-                                select * from dtdez.{taxi}_{year}_{month}_ext;
+                                insert into {DATASET}.{taxi}_{year}
+                                select * from {DATASET}.{taxi}_{year}_{month}_ext;
 
-                                drop table dtdez.{taxi}_{year}_{month}_ext;
+                                drop table {DATASET}.{taxi}_{year}_{month}_ext;
                             """
 
-            yellow_query = f"""create table if not exists dtdez.{taxi}_{year} (
+            yellow_query = f"""create table if not exists {DATASET}.{taxi}_{year} (
                                     VendorID INT64,
                                     tpep_pickup_datetime TIMESTAMP,
                                     tpep_dropoff_datetime TIMESTAMP,
@@ -112,15 +114,15 @@ def week_2_ingestion():
                                     congestion_surcharge FLOAT64
                                 );
 
-                                create or replace external table dtdez.{taxi}_{year}_{month}_ext options (
-                                uris = ['gs://dtdez/{taxi}/{year}-{month}.csv'],
+                                create or replace external table {DATASET}.{taxi}_{year}_{month}_ext options (
+                                uris = ['gs://{BUCKET_NAME}/{taxi}/{year}-{month}.csv'],
                                 format = 'csv'
                                 );
 
-                                insert into dtdez.{taxi}_{year}
-                                select * from dtdez.{taxi}_{year}_{month}_ext;
+                                insert into {DATASET}.{taxi}_{year}
+                                select * from {DATASET}.{taxi}_{year}_{month}_ext;
 
-                                drop table dtdez.{taxi}_{year}_{month}_ext;
+                                drop table {DATASET}.{taxi}_{year}_{month}_ext;
                              """
             if taxi == 'yellow':
                 if year == '2020' or (year == '2021' and month == '03'):
