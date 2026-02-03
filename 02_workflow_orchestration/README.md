@@ -20,9 +20,9 @@
 
 ## References
 
-- [answer to question 1 can be found in the airflow logs, code found here on line 42](./airflow/dags/week2.py)
-- [answer to question 2 can be found here on line 28](./airflow/dags/week2.py)
+- [answer to question 1 can be found in the airflow logs, code found here on line 46](./airflow/dags/week2.py)
+- [answer to question 2 can be found here on line 32](./airflow/dags/week2.py)
 - [answers to questions 3, 4 and 5 can be found here](./bq.sql)
-- [answer to question 6 can be found here on line 14](./airflow/dags/week2.py)
+- [answer to question 6 can be found here on line 10](./airflow/dags/week2.py)
 - [configuration file](./airflow/docker-compose.yaml)
 - [homework questions](./homework.md)
