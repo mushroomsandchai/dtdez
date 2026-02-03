@@ -5,10 +5,6 @@ from zoneinfo import ZoneInfo
 
 WORK_DIR = '/tmp/week2/'
 
-def get_dates(context):
-    month, year = str(context['logical_date'].month).zfill(2), str(context['logical_date'].year)
-    return (month, year)
-
 @dag(
     dag_id = 'week2',
     start_date = datetime(2019, 1, 1, tzinfo = ZoneInfo('America/New_York')),
@@ -19,10 +15,18 @@ def get_dates(context):
     max_active_runs = 1
 )
 def week_2_ingestion():
+
+    @task
+    def get_dates(logical_date = None):
+        return({
+                'month': str(logical_date.month).zfill(2), 
+                'year': logical_date.year
+                })
+
     @task.bash
-    def ingest():
+    def ingest(date):
         context = get_current_context()
-        month, year = get_dates(context)
+        month, year = date['month'], date['year']
         return(f"""set -euo pipefail
         mkdir -p {WORK_DIR}yellow/
         curl -Lf https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_{year}-{month}.csv.gz\
@@ -34,25 +38,23 @@ def week_2_ingestion():
         gzip -d {WORK_DIR}green/{year}-{month}.csv.gz""")
     
     @task
-    def load():
+    def load(date):
         context = get_current_context()
-        month, year = get_dates(context)
+        month, year = date['month'], date['year']
         if year == 2020 and month == "12":
             import os
             print(os.path.getsize(f"{WORK_DIR}yellow/{year}-{month}.csv") / (1000000))
         upload_blob("dtdez", f'{WORK_DIR}yellow/{year}-{month}.csv', f'yellow/{year}-{month}.csv')
         upload_blob("dtdez", f'{WORK_DIR}green/{year}-{month}.csv', f'green/{year}-{month}.csv')
-    
-    @task.bash(trigger_rule = "all_done")
-    def clean():
-        return(f"rm -rf {WORK_DIR}")
 
-    @task
-    def big_query_insert():
+    @task(
+        trigger_rule = 'all_success'
+    )
+    def big_query_insert(date):
         from airflow.providers.google.cloud.hooks.bigquery import BigQueryHook
         hook = BigQueryHook()
         client = hook.get_client()
-        month, year = get_dates(get_current_context())
+        month, year = date['month'], date['year']
         for taxi in (['yellow', 'green']):
             green_query = f"""
                                 create table if not exists dtdez.{taxi}_{year} (
@@ -126,11 +128,16 @@ def week_2_ingestion():
             elif year == '2020':
                 query_job = client.query(green_query)
 
-    ingester = ingest()
-    loader = load()
-    cleaner = clean()
-    inserter = big_query_insert()
+    @task.bash(trigger_rule = "all_done")
+    def clean():
+        return(f"rm -rf {WORK_DIR}")
 
-    ingester >> loader >> cleaner >> inserter
+    date = get_dates()
+    ingester = ingest(date)
+    loader = load(date)
+    inserter = big_query_insert(date)
+    cleaner = clean()
+
+    ingester >> loader >> inserter >> cleaner
 
 week_2_ingestion()
