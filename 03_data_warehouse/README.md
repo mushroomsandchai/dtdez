@@ -5,11 +5,11 @@
 
 ```sql
 
-create or replace external table `madowd.homework.week3_ext` options(
+create or replace external table `project_id.dataset.week3_ext` options(
   uris = ['gs://homework_dtdez/week3/*.parquet'],
   format = 'parquet'
 );
-select count(*) from `madowd.homework.week3_ext`;
+select count(*) from `project_id.dataset.week3_ext`;
 ```
 
 
@@ -17,11 +17,11 @@ select count(*) from `madowd.homework.week3_ext`;
 #### Answer: 0 MB for the External Table and 155.12 MB for the Materialized Table
 
 ```sql
-create or replace table `madowd.homework.week3` as
-select * from `madowd.homework.week3_ext`;
+create or replace table `project_id.dataset.week3` as
+select * from `project_id.dataset.week3_ext`;
 
-select count(distinct PULocationID) from `madowd.homework.week3_ext`;
-select count(distinct PULocationID) from `madowd.homework.week3`;
+select count(distinct PULocationID) from `project_id.dataset.week3_ext`;
+select count(distinct PULocationID) from `project_id.dataset.week3`;
 ```
 
 
@@ -29,8 +29,8 @@ select count(distinct PULocationID) from `madowd.homework.week3`;
 #### Answer: BigQuery is a columnar database, and it only scans the specific columns requested in the query. Querying two columns (PULocationID, DOLocationID) requires reading more data than querying one column (PULocationID), leading to a higher estimated number of bytes processed.
 
 ```sql
-select PULocationID from `madowd.homework.week3`;
-select PULocationID, DOLocationID from `madowd.homework.week3`;
+select PULocationID from `project_id.dataset.week3`;
+select PULocationID, DOLocationID from `project_id.dataset.week3`;
 ```
 
 
@@ -38,7 +38,7 @@ select PULocationID, DOLocationID from `madowd.homework.week3`;
 #### Answer: 8,333
 
 ```sql
-select count(*) from `madowd.homework.week3`
+select count(*) from `project_id.dataset.week3`
 where fare_amount = 0;
 ```
 
@@ -47,10 +47,10 @@ where fare_amount = 0;
 #### Answer: Partition by tpep_dropoff_datetime and Cluster on VendorID
 
 ```sql
-create or replace table `madowd.homework.week3_pc`
+create or replace table `project_id.dataset.week3_pc`
 partition by date(tpep_dropoff_datetime)
 cluster by VendorID as
-select * from `madowd.homework.week3`;
+select * from `project_id.dataset.week3`;
 ```
 
 
@@ -58,12 +58,12 @@ select * from `madowd.homework.week3`;
 #### Answer: 310.24 MB for non-partitioned table and 26.84 MB for the partitioned table
 
 ```sql
-select distinct VendorID from `madowd.homework.week3_pc`
+select distinct VendorID from `project_id.dataset.week3_pc`
 where 
     date(tpep_dropoff_datetime) >= '2024-03-01' and
     date(tpep_dropoff_datetime) <= '2024-03-15';
 
-select distinct VendorID from `madowd.homework.week3`
+select distinct VendorID from `project_id.dataset.week3`
 where 
     date(tpep_dropoff_datetime) >= '2024-03-01' and
     date(tpep_dropoff_datetime) <= '2024-03-15';
@@ -82,7 +82,7 @@ where
 #### Answer: Since big query caches some metadata when a table is materialized, it simply outputs the cached data instead of reading the number of records all over again.
 
 ```sql
-select count(*) from `madowd.homework.week3`;
+select count(*) from `project_id.dataset.week3`;
 ```
 
 ## References
