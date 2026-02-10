@@ -7,7 +7,7 @@ This dbt project transforms raw taxi trip data into analytics-ready models using
 
 ```
 dbt/
-├── models/              # dbt models organized by layer
+├── models/             # dbt models organized by layer
 │   ├── staging/        # Raw data transformations (stg_*)
 │   ├── intermediate/   # Business logic layer (int_*)
 │   └── marts/          # Final analytics tables (dim_*, fact_*)

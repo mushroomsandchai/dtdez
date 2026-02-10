@@ -86,7 +86,6 @@ where
 
 ## References
 
-- [configuration file](./airflow/docker-compose.yaml)
 - [homework questions](./homework.md)
 
 
