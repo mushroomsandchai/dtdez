@@ -44,7 +44,7 @@ dbt/
 
 Run data quality tests:
 ```bash
-dbt test
+dbt test --target homework/prod/dev
 ```
 
 ## Documentation
