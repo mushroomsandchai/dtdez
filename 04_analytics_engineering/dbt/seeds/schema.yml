@@ -1,0 +1,22 @@
+seeds:
+  - name: taxi_zone_lookup
+    description: Reference table containing taxi zone information for New York City boroughs and service zones
+    columns:
+      - name: locationid
+        description: Unique identifier for each taxi zone location (numeric ID from 1-265)
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+
+      - name: borough
+        description: The NYC borough where the taxi zone is located (Manhattan, Brooklyn, Queens, Bronx, Staten Island, EWR, or Unknown)
+        data_type: string
+
+      - name: zone
+        description: The specific name/designation of the taxi zone within the borough
+        data_type: string
+
+      - name: service_zone
+        description: Classification of the zone service type (Yellow Zone, Boro Zone, Airports, EWR, or N/A for unknown zones)
+        data_type: string

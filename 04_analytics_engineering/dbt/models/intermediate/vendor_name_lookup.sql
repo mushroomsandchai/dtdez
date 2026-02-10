@@ -1,0 +1,15 @@
+-- ============================================================================
+-- MODEL: vendor_name_lookup
+-- ============================================================================
+-- Description: Intermediate model that provides a lookup table for vendor names.
+--              This model uses the vendor_name macro to generate or transform vendor
+--              name data for use in downstream models.
+--
+-- Purpose: To create a standardized vendor name reference that can be joined with
+--          fact tables to enrich transaction data with consistent vendor naming.
+--
+-- Depends on: vendor_name() macro
+--
+-- Usage: Join this model with fact tables on vendor identifiers to add vendor name
+--        information to your datasets.
+{{ vendor_name() }}

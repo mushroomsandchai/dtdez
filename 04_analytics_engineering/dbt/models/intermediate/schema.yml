@@ -1,0 +1,63 @@
+models:
+  - name: payment_type_lookup
+    description: Lookup table for payment type codes and descriptions
+    columns:
+      - name: payment_type_id
+        description: Payment type identifier
+      - name: payment_description
+        description: Payment type description
+
+  - name: vendor_name_lookup
+    description: Lookup table for vendor names and identifiers
+    columns:
+      - name: vendor_id
+        description: Vendor identifier
+      - name: vendor_name
+        description: Vendor name
+  
+  
+  - name: int_trips_unioned
+    description: A unified trips data.
+    columns:
+      - name: trip_id
+        description: Unique identifier for trips.
+      - name: vendorid
+        description: Vendor ID (1 = Creative Mobile Technologies, 2 = VeriFone Inc.)
+      - name: ratecodeid
+        description: Rate code ID for the trip (standard, JFK, Newark, etc.)
+      - name: pulocationid
+        description: Pickup location zone ID
+      - name: dolocationid
+        description: Dropoff location zone ID
+      - name: lpep_pickup_datetime
+        description: Pickup timestamp (Licensed Passenger Enhancement Program green taxi)
+      - name: lpep_dropoff_datetime
+        description: Dropoff timestamp
+      - name: store_and_fwd_flag
+        description: Flag indicating whether trip data was stored and forwarded (Y/N)
+      - name: passenger_count
+        description: Number of passengers in the vehicle
+      - name: trip_distance
+        description: Trip distance in miles
+      - name: trip_type
+        description: Trip type (1 = Street-hail, 2 = Dispatch)
+      - name: fare_amount
+        description: Base fare amount in USD
+      - name: extra
+        description: Extra charges (rush hour, overnight surcharge)
+      - name: mta_tax
+        description: MTA tax amount
+      - name: tip_amount
+        description: Tip amount in USD
+      - name: tolls_amount
+        description: Tolls paid amount in USD
+      - name: ehail_fee
+        description: E-hail fee amount
+      - name: improvement_surcharge
+        description: Improvement surcharge amount
+      - name: total_amount
+        description: Total trip fare amount including all charges and surcharges
+      - name: payment_type
+        description: Payment method (1 = Credit card, 2 = Cash, etc.)
+      - name: service_type
+        description: Taxi color

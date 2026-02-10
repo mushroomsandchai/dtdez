@@ -1,0 +1,42 @@
+week4:
+  target: dev
+  outputs:
+    dev:
+      dataset: dev                                      # Rename it to a dataset where all your raw external tables live. This is the development environment.
+                                                          # It filters rows to only fetch records from 2019-01-01 for faster iteration and testing to reduce costs.
+                                                          # Usage: dbt run --select model.sql --target dev
+      job_execution_timeout_seconds: 60
+      job_retries: 1
+      keyfile: /path/to/service/key/file.json             # Path to your GCP service key.
+      location: US
+      method: service-account
+      priority: interactive
+      project: project_id                                 # Your project_id.
+      threads: 1
+      type: bigquery
+    prod:
+      dataset: prod                                      # Rename it to your production dataset. This is the production environment.
+                                                          # It filters rows to only fetch records from 2019 and 2020.
+                                                          # Usage: dbt run --select model.sql --target prod
+      job_execution_timeout_seconds: 60
+      job_retries: 1
+      keyfile: /path/to/service/key/file.json             # Path to your GCP service key.
+      location: US
+      method: service-account
+      priority: interactive
+      project: project_id                                 # Your project_id.
+      threads: 1
+      type: bigquery
+    homework:
+      dataset: homework                                   # Rename it to your homework dataset. This is the homework environment.
+                                                          # It does not filter rows to get the listed answers.
+                                                          # Usage: dbt run --select model.sql --target homework
+      job_execution_timeout_seconds: 60
+      job_retries: 1
+      keyfile: /path/to/service/key/file.json             # Path to your GCP service key.
+      location: US
+      method: service-account
+      priority: interactive
+      project: project_id                                 # Your project_id.
+      threads: 1
+      type: bigquery

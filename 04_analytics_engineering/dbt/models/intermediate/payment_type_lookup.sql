@@ -1,0 +1,26 @@
+-- ============================================================================
+-- MODEL: payment_type_lookup
+-- ============================================================================
+-- DESCRIPTION:
+--   Intermediate model that provides a lookup table for payment types.
+--   Uses the payment_description macro to generate payment type mappings
+--   with their corresponding descriptions.
+--
+-- PURPOSE:
+--   Serves as a reference table for payment type dimensions, enabling
+--   consistent payment type categorization and descriptions across
+--   downstream models.
+--
+-- COLUMNS:
+--   Refer to the payment_description macro for column structure.
+--
+-- DEPENDENCIES:
+--   - Macro: payment_description()
+--
+-- TAGS:
+--   - intermediate
+--   - lookup
+--   - payment
+--
+-- ============================================================================
+{{ payment_description() }}

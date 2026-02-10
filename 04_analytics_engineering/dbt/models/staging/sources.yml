@@ -1,0 +1,87 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Raw data from nytaxi datasets from datatalks club. This particular repo can only parse data 2019 and 2020 since it's hardcoded.
+    database: madowd
+    schema: dev
+    tables:
+      - name: green_tripdata_external
+        description: Raw green taxi trip records from NYC TLC
+        columns:
+          - name: vendorid
+            description: Vendor ID (1 = Creative Mobile Technologies, 2 = VeriFone Inc.)
+          - name: ratecodeid
+            description: Rate code ID for the trip (standard, JFK, Newark, etc.)
+          - name: pulocationid
+            description: Pickup location zone ID
+          - name: dolocationid
+            description: Dropoff location zone ID
+          - name: lpep_pickup_datetime
+            description: Pickup timestamp (Licensed Passenger Enhancement Program green taxi)
+          - name: lpep_dropoff_datetime
+            description: Dropoff timestamp
+          - name: store_and_fwd_flag
+            description: Flag indicating whether trip data was stored and forwarded (Y/N)
+          - name: passenger_count
+            description: Number of passengers in the vehicle
+          - name: trip_distance
+            description: Trip distance in miles
+          - name: trip_type
+            description: Trip type (1 = Street-hail, 2 = Dispatch)
+          - name: fare_amount
+            description: Base fare amount in USD
+          - name: extra
+            description: Extra charges (rush hour, overnight surcharge)
+          - name: mta_tax
+            description: MTA tax amount
+          - name: tip_amount
+            description: Tip amount in USD
+          - name: tolls_amount
+            description: Tolls paid amount in USD
+          - name: ehail_fee
+            description: E-hail fee amount
+          - name: improvement_surcharge
+            description: Improvement surcharge amount
+          - name: total_amount
+            description: Total trip fare amount including all charges and surcharges
+          - name: payment_type
+            description: Payment method (1 = Credit card, 2 = Cash, etc.)
+
+      - name: yellow_tripdata_external
+        description: Raw external table containing yellow taxi trip data from the Taxicab Passenger Enhancement Program (TPEP)
+        columns:
+          - name: vendorid
+            description: Identifier for the TPEP provider that provided the record
+          - name: ratecodeid
+            description: Code indicating the fare rate applied to the trip
+          - name: pulocationid
+            description: Unique identifier for the pickup location zone
+          - name: dolocationid
+            description: Unique identifier for the dropoff location zone
+          - name: tpep_pickup_datetime
+            description: Date and time when the passenger was picked up
+          - name: tpep_dropoff_datetime
+            description: Date and time when the passenger was dropped off
+          - name: store_and_fwd_flag
+            description: Flag indicating whether trip data was stored in vehicle memory and forwarded when connected
+          - name: passenger_count
+            description: Number of passengers in the vehicle during the trip
+          - name: trip_distance
+            description: Elapsed trip distance in miles
+          - name: fare_amount
+            description: Time and distance fare calculated by the meter
+          - name: extra
+            description: Miscellaneous extras including rush hour and overnight charges
+          - name: mta_tax
+            description: MTA tax amount automatically triggered based on the metered rate
+          - name: tip_amount
+            description: Tip amount provided by the passenger
+          - name: tolls_amount
+            description: Total tolls paid during the trip
+          - name: improvement_surcharge
+            description: Improvement surcharge assessed on all trips
+          - name: total_amount
+            description: Total amount charged to the passenger including all fees and surcharges
+          - name: payment_type
+            description: Numeric code indicating the payment method used by the passenger

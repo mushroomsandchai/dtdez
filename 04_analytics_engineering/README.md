@@ -9,23 +9,33 @@
 ### Question 2. New value 6 appears in payment_type. What happens on dbt test?
 #### Answer: dbt will fail the test, returning a non-zero exit code
 
+##### The following sql script creates the necessary tables for this weeks homework
+```sql
+create or replace external table `project_id.dev.green_tripdata_external` options(
+  uris = ['gs://bucket/green/*'],
+  format = 'csv'
+);
+
+create or replace external table `project_id.dev.yellow_tripdata_external` options(
+  uris = ['gs://bucket/yellow/*'],
+  format = 'csv'
+);
+
+create or replace external table `project_id.dev.fhv_tripdata_external` options(
+  uris = ['gs://bucket/fhv/*'],
+  format = 'csv'
+);
+```
 
 
 ### Question 3. What is the count of records in the fct_monthly_zone_revenue model?
 #### Answer: 12,184
 
 ```sql
-with grouped as (
-    select 
-        count(1) 
-    from 
-        `madowd.dtdez.fact_trip` 
-    group by 
-        date_trunc(pickup_timestamp, month), 
-        pickup_zone, 
-        service_type
-)
-select count(*) from grouped;
+select 
+    count(*) as total_records
+from 
+    `project_id.homework.fact_monthly_zone_revenue`;
 ```
 
 
@@ -35,14 +45,15 @@ select count(*) from grouped;
 ```sql
 select 
     pickup_zone, 
-    sum(total_revenue) as total_revenue 
+    sum(total_revenue) as total_zone_revenue
 from 
-    `madowd.dtdez.fact_monthly_revenue` 
+    `project_id.homework.fact_monthly_zone_revenue`
 where 
-    year = 2020 and 
-    service_type = 'green' 
+    service_type = 'green' and 
+    extract(year from revenue_month) = 2020
 group by 1
-order by 2 desc;
+order by 2 desc
+limit 5;
 ```
 
 
@@ -53,24 +64,25 @@ order by 2 desc;
 select 
     sum(trip_count) as total_trips
 from 
-    `madowd.dtdez.fact_monthly_revenue` 
+    `project_id.homework.fact_monthly_zone_revenue`
 where 
-    year = 2019 and 
-    month = 10 and 
-    service_type = 'green';
+    service_type = 'green' and 
+    extract(year from revenue_month) = 2019 and 
+    extract(month from revenue_month) = 10;
 ```
 
 ### Question 6. Count of records in stg_fhv_tripdata (filter dispatching_base_num IS NULL)?
-#### Answer: 43,244,696
+#### Answer: 43,244,693
 
 ```sql
 select 
     count(*) as total_count 
 from 
-    `madowd.dtdez.stg_fhv`;
+    `project_id.dataset.fhv_tripdata_external`
+where 
+    dispatching_base_num is not null;
 ```
 
-##### Note: Choosing the closest answer, since 43,244,693 is the actual count and there are 3 null values.
 
 ## References
 
@@ -78,4 +90,4 @@ from
 - [homework questions](./homework.md)
 
 
-##### Note: Since I've gone about creating my own models, macros to answer this weeks homework, column names, table names and queries will differ from that in [official datatalks dbt project repo](https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/04-analytics-engineering/taxi_rides_ny).
+##### Note: This project assumes you have created three dataset(dev, homework, prod) and loaded your external tables to dev dataset. Since I've gone about creating my own models, macros to answer this weeks homework, column names, table names and queries will differ from that in [official datatalks dbt project repo](https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/04-analytics-engineering/taxi_rides_ny).

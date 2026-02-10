@@ -1,0 +1,80 @@
+version: 2
+
+models:
+  - name: dim_payment_vendor_joined
+    description: Dimension table joining trips with vendor and payment type lookup tables
+    columns:
+      - name: trip_id
+        description: Unique trip identifier
+      - name: vendor_id
+        description: Vendor identifier
+      - name: vendor_name
+        description: Name of the vendor
+      - name: payment_type
+        description: Payment type code
+      - name: payment_description
+        description: Description of payment type
+      - name: pickup_datetime
+        description: Trip pickup timestamp
+      - name: dropoff_datetime
+        description: Trip dropoff timestamp
+      - name: passenger_count
+        description: Number of passengers
+      - name: trip_distance
+        description: Distance traveled in miles
+      - name: fare_amount
+        description: Base fare amount
+      - name: tip_amount
+        description: Tip amount
+      - name: total_amount
+        description: Total trip fare
+
+  - name: dim_zones
+    description: Dimension table containing NYC taxi zone information
+    columns:
+      - name: location_id
+        description: Unique zone location identifier
+        tests:
+          - unique
+          - not_null
+      - name: zone
+        description: Zone name
+      - name: borough
+        description: NYC borough name
+      - name: service_zone
+        description: Service area designation
+
+  - name: fact_trips
+    description: Fact table with complete trip information including zone details
+    columns:
+      - name: trip_id
+        description: Unique trip identifier
+        tests:
+          - unique
+          - not_null
+      - name: pickup_zone
+        description: Pickup location zone name
+      - name: dropoff_zone
+        description: Dropoff location zone name
+      - name: trip_duration
+        description: Trip duration in minutes
+      - name: total_amount
+        description: Total revenue for the trip
+
+  - name: fact_monthly_zone_revenue
+    description: Aggregated monthly revenue metrics by pickup zone, service type and month
+    columns:
+      - name: pickup_zone
+        description: Pickup zone name
+      - name: service_type
+        description: Type of service (yellow, green, etc.)
+      - name: revenue_month
+        description: Month of revenue aggregation
+      - name: trip_count
+        description: Number of trips
+      - name: total_revenue
+        description: Total revenue for the period
+      - name: avg_trip_distance
+        description: Average trip distance
+      - name: total_tip_amount
+        description: Total tips collected

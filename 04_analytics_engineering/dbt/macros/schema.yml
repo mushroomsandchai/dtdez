@@ -1,0 +1,8 @@
+version: 2
+
+macros:
+  - name: payment_description
+    description: Generates a SQL query that creates a mapping table of payment types to their descriptions. This macro uses a dictionary to define payment type codes (0-6) and their corresponding descriptions, then constructs a UNION ALL query that returns all payment types with their labels.
+    
+  - name: vendor_name
+    description: Generates a mapping table of vendor IDs to vendor names. This macro creates a SQL query that returns a two-column result set containing vendor identifiers and their corresponding names.

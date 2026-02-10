@@ -1,0 +1,116 @@
+models:
+  - name: stg_green_tripdata
+    description: Staging layer for green taxi trip data with cleaned and standardized column names, data type casting, and deterministic filtering to a single month of data in dev environment for faster iteration.
+    columns:
+      - name: vendor_id
+        description: Vendor ID (1 = Creative Mobile Technologies, 2 = VeriFone Inc.)
+        data_type: integer
+      - name: rate_code_id
+        description: Rate code ID for the trip (standard, JFK, Newark, etc.)
+        data_type: integer
+      - name: pickup_location_id
+        description: Pickup location zone ID
+        data_type: integer
+      - name: dropoff_location_id
+        description: Dropoff location zone ID
+        data_type: integer
+      - name: pickup_datetime
+        description: Pickup timestamp (Licensed Passenger Enhancement Program green taxi)
+        data_type: timestamp
+      - name: dropoff_datetime
+        description: Dropoff timestamp
+        data_type: timestamp
+      - name: store_and_fwd_flag
+        description: Flag indicating whether trip data was stored and forwarded (Y/N)
+        data_type: string
+      - name: passenger_count
+        description: Number of passengers in the vehicle
+        data_type: integer
+      - name: trip_distance
+        description: Trip distance in miles
+        data_type: numeric
+      - name: trip_type
+        description: Trip type (1 = Street-hail, 2 = Dispatch)
+        data_type: integer
+      - name: fare_amount
+        description: Base fare amount in USD
+        data_type: numeric
+      - name: extra
+        description: Extra charges (rush hour, overnight surcharge)
+        data_type: numeric
+      - name: mta_tax
+        description: MTA tax amount
+        data_type: numeric
+      - name: tip_amount
+        description: Tip amount in USD
+        data_type: numeric
+      - name: tolls_amount
+        description: Tolls paid amount in USD
+        data_type: numeric
+      - name: ehail_fee
+        description: E-hail fee amount
+        data_type: numeric
+      - name: improvement_surcharge
+        description: Improvement surcharge amount
+        data_type: numeric
+      - name: total_amount
+        description: Total trip fare amount including all charges and surcharges
+        data_type: numeric
+      - name: payment_type
+        description: Payment method (1 = Credit card, 2 = Cash, etc.)
+        data_type: integer
+
+  - name: stg_yellow_tripdata
+    description: Staging layer for yellow taxi trip data with cleaned and standardized column names, data type casting, and deterministic filtering to a single month of data in dev environment for faster iteration.
+    columns:
+      - name: vendor_id
+        description: Identifier for the taxi vendor (standardized from vendorid)
+        data_type: integer
+      - name: rate_code_id
+        description: Rate code identifier indicating the fare calculation method (standardized from ratecodeid)
+        data_type: integer
+      - name: pickup_location_id
+        description: Taxi zone location ID where the passenger was picked up (standardized from pulocationid)
+        data_type: integer
+      - name: dropoff_location_id
+        description: Taxi zone location ID where the passenger was dropped off (standardized from dolocationid)
+        data_type: integer
+      - name: pickup_datetime
+        description: Date and time when the trip started (Taxicab Passenger Enhancement Program timestamp)
+        data_type: timestamp
+      - name: dropoff_datetime
+        description: Date and time when the trip ended (Taxicab Passenger Enhancement Program timestamp)
+        data_type: timestamp
+      - name: store_and_fwd_flag
+        description: Flag indicating whether the trip record was held in vehicle memory before sending to the vendor
+        data_type: string
+      - name: passenger_count
+        description: Number of passengers in the vehicle during the trip
+        data_type: integer
+      - name: trip_distance
+        description: Distance traveled during the trip in miles
+        data_type: numeric
+      - name: fare_amount
+        description: Base fare amount for the trip
+        data_type: numeric
+      - name: extra
+        description: Extra charges such as rush hour or overnight surcharges
+        data_type: numeric
+      - name: mta_tax
+        description: MTA tax amount added to the fare
+        data_type: numeric
+      - name: tip_amount
+        description: Tip amount provided by the passenger
+        data_type: numeric
+      - name: tolls_amount
+        description: Total tolls paid during the trip
+        data_type: numeric
+      - name: improvement_surcharge
+        description: Improvement surcharge amount
+        data_type: numeric
+      - name: total_amount
+        description: Total amount charged to the passenger including all fees and surcharges
+        data_type: numeric
+      - name: payment_type
+        description: Payment method code (e.g., credit card, cash)
+        data_type: integer
