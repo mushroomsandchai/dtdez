@@ -86,7 +86,10 @@ where
 
 ## References
 
+- [ingestion dag](./airflow/dags/week4.py)
+- [configuration file](./airflow/docker-compose.yaml)
 - [homework questions](./homework.md)
+- [airflow initialization script](./airflow/init_airflow.sh)
 
 
 ##### Note: This project assumes you have created three dataset(dev, homework, prod) and loaded your external tables to dev dataset. Since I've gone about creating my own models, macros to answer this weeks homework, column names, table names and queries will differ from that in [official datatalks dbt project repo](https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/04-analytics-engineering/taxi_rides_ny).
