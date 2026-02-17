@@ -24,8 +24,9 @@ Each week of the course has its own folder containing notes, homework, and relat
 - [Week 2 – Workflow Orchestration](./02_workflow_orchestration)
 - [Week 3 – Data Warehousing](./03_data_warehouse)
 - [Week 4 – Analytical Engineering](./04_analytics_engineering)
-- [Week 5 – Batch Processing](./05_batch_processing)
-- [Week 6 – Streaming](./06_streaming)
+- [Week 5 - Data Platforms](./05_data_platforms)
+- [Week 6 – Batch Processing](./06_batch_processing)
+- [Week 7 – Streaming](./07_streaming)
 
 > Each weekly folder typically contains:
 > - `README.md` (notes & explanations)
