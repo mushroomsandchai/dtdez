@@ -12,8 +12,7 @@ python nytaxi.py
 **Requirements**
 
 ```bash
-dlt
-requests
+pip install "dlt[duckdb]" requests
 ```
 Defaults: destination DuckDB, dataset name `dlt`. 
 
