@@ -28,7 +28,10 @@ Each week of the course has its own folder containing notes, homework, and relat
 - [Week 6 – Batch Processing](./06_batch_processing)
 - [Week 7 – Streaming](./07_streaming)
 
-> Each weekly folder typically contains:
+### Workshops
+- [dlt - Building Pipelines using dlt](./workshop_01_dlt/)
+
+> Each weekly/workshop folder typically contains:
 > - `README.md` (notes & explanations)
 > - Homework solutions
 > - SQL / Python scripts / Notebooks
