@@ -26,7 +26,7 @@ Each week of the course has its own folder containing notes, homework, and relat
 - [Week 4 – Analytical Engineering](./04_analytics_engineering)
 - [Week 5 - Data Platforms](./05_data_platforms)
 - [Week 6 – Batch Processing](./06_batch_processing)
-- [Week 7 – Streaming](./07_streaming)
+- [Week 7 – Stream Processing](./07_stream_processing)
 
 ### Workshops
 - [dlt - Building Pipelines using dlt](./workshop_01_dlt/)
