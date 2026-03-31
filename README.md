@@ -40,7 +40,7 @@ Each week of the course has its own folder containing notes, homework, and relat
 
 ## Projects
 
-- [Course Project](./project)
+- [EIA Data Pipeline](https://github.com/mushroomsandchai/eia)
   - End-to-end data engineering pipeline
   - Data ingestion → transformation → analytics
   - Includes documentation and reproducible steps
